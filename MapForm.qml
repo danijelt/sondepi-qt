@@ -62,9 +62,8 @@ Page {
 
         Button {
             id: distanceLabel
-            text: "Distance X m"
-            onClicked: {
-                console.log(userMarker.coordinate.distanceTo(sondeMarker.coordinate))
+            text: {
+                return (userMarker.coordinate.distanceTo(sondeMarker.coordinate)).toFixed(1) + " m"
             }
         }
     }
@@ -133,7 +132,7 @@ Page {
             if (trackingMode === "user") {
                 osmMap.center = userMarker.coordinate;
             }
-            console.log(userMarker.coordinate.distanceTo(sondeMarker.coordinate))
+            distanceLabel.text = (userMarker.coordinate.distanceTo(sondeMarker.coordinate)).toFixed(1) + " m"
         }
     }
 
@@ -145,6 +144,7 @@ Page {
             if (trackingMode === "sonde") {
                 osmMap.center = sondeMarker.coordinate;
             }
+            distanceLabel.text = (userMarker.coordinate.distanceTo(sondeMarker.coordinate)).toFixed(1) + " m"
         }
     }
 }
