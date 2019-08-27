@@ -45,7 +45,6 @@ Page {
             anchorPoint.x: userMarkerIcon.width/2
             anchorPoint.y: userMarkerIcon.height
             sourceItem: userMarkerIcon
-            coordinate: QtPositioning.coordinate(1, 1)
         }
 
         MapQuickItem {
@@ -53,7 +52,6 @@ Page {
             anchorPoint.x: sondeMarkerIcon.width/2
             anchorPoint.y: sondeMarkerIcon.height
             sourceItem: sondeMarkerIcon
-            coordinate: QtPositioning.coordinate(2, 2)
         }
     }
 
