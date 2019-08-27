@@ -9,11 +9,6 @@ Page {
     title: qsTr("Details")
     padding: 10
 
-    Label {
-        text: qsTr("Information from last received sonde packet goes here.")
-        anchors.centerIn: parent
-    }
-
     GridLayout {
         columns: 2
 
@@ -24,7 +19,27 @@ Page {
 
         Label {
             id: freqText
-            text: "0 MHz"
+            text: "0"
+        }
+
+        Label {
+            id: packetLabel
+            text: "Packet number"
+        }
+
+        Label {
+            id: packetText
+            text: "0"
+        }
+
+        Label {
+            id: timeLabel
+            text: "Time"
+        }
+
+        Label {
+            id: timeText
+            text: "0000-00-00 00:00:00"
         }
 
         Label {
@@ -34,7 +49,7 @@ Page {
 
         Label {
             id: coordText
-            text: "0.0000 0.0000"
+            text: "0.0000, 0.0000"
         }
 
         Label {
@@ -45,6 +60,26 @@ Page {
         Label {
             id: altitudeText
             text: "0 m"
+        }
+
+        Label {
+            id: vhLabel
+            text: "Horizontal speed"
+        }
+
+        Label {
+            id: vhText
+            text: "0.0 m/s"
+        }
+
+        Label {
+            id: vvLabel
+            text: "Vertical speed"
+        }
+
+        Label {
+            id: vvText
+            text: "0.0 m/s"
         }
     }
 }
