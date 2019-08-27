@@ -79,8 +79,6 @@ Page {
             id: mapTypeButton
             text:  "Standard map"
             onClicked: {
-                //console.log("clicked");
-                //console.log(osmMap.activeMapType.style);
                 if (mapType === "standard") {
                     osmMap.activeMapType = osmMap.supportedMapTypes[5];
                     mapType = "hiking";
