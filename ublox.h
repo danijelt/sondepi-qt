@@ -20,7 +20,7 @@ public:
     explicit Ublox(QObject *parent = nullptr);
 
 signals:
-    void positionChanged(double lat, double lon, double heading);
+    void positionChanged(double lat, double lon, double dir);
 
 private slots:
     void printPosition(QGeoPositionInfo update);

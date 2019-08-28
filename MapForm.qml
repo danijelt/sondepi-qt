@@ -102,6 +102,7 @@ Page {
                         osmMap.center = userMarker.coordinate;
                         osmMap.zoomLevel = 19;
                     }
+                    osmMap.bearing = 0;
                     trackingMode = "user";
                     trackingModeButton.text = "Tracking user";
                     break;
@@ -110,10 +111,12 @@ Page {
                         osmMap.center = sondeMarker.coordinate;
                         osmMap.zoomLevel = 19;
                     }
+                    osmMap.bearing = 0;
                     trackingMode = "sonde";
                     trackingModeButton.text = "Tracking sonde";
                     break;
                 case "sonde":
+                    osmMap.bearing = 0;
                     trackingMode = "none";
                     trackingModeButton.text = "No tracking";
                     break;
@@ -131,6 +134,9 @@ Page {
             userMarker.coordinate = QtPositioning.coordinate(lat, lon);
             if (trackingMode === "user") {
                 osmMap.center = userMarker.coordinate;
+                if (!isNaN(dir)) {
+                    osmMap.bearing = dir;
+                }
             }
             distanceLabel.text = (userMarker.coordinate.distanceTo(sondeMarker.coordinate)).toFixed(1) + " m"
         }
