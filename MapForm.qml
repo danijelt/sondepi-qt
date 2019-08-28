@@ -100,7 +100,7 @@ Page {
                 case "none":
                     if (userMarker.coordinate != "") {
                         osmMap.center = userMarker.coordinate;
-                        osmMap.zoomLevel = 19;
+                        osmMap.zoomLevel = 18;
                     }
                     osmMap.bearing = 0;
                     trackingMode = "user";
@@ -109,7 +109,7 @@ Page {
                 case "user":
                     if (sondeMarker.coordinate != "") {
                         osmMap.center = sondeMarker.coordinate;
-                        osmMap.zoomLevel = 19;
+                        osmMap.zoomLevel = 18;
                     }
                     osmMap.bearing = 0;
                     trackingMode = "sonde";
