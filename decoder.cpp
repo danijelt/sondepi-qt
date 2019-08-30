@@ -8,22 +8,28 @@ Decoder::Decoder(QObject *parent) : QObject(parent)
     sox = new QProcess(this);
     decoder = new QProcess(this);
 
-    this->killRtlFm();
+    this->killOldProcess();
 }
 
 Decoder::~Decoder() {
-    decoder->terminate();
-    sox->terminate();
-    rtlfm->terminate();
-    this->killRtlFm();
+    delete rtlfm;
+    delete sox;
+    delete decoder;
+    this->killOldProcess();
 }
 
-void Decoder::killRtlFm() {
+void Decoder::killOldProcess() {
     QProcess *killOldRtlSdr = new QProcess(this);
     QString kill_program = "pkill";
     QStringList kill_params;
     kill_params << "-9" << "rtl_fm";
     killOldRtlSdr->execute(kill_program, kill_params);
+    delete rtlfm;
+    delete sox;
+    delete decoder;
+    rtlfm = new QProcess(this);
+    sox = new QProcess(this);
+    decoder = new QProcess(this);
 }
 
 void Decoder::setFrequency(int freq) {
@@ -52,8 +58,6 @@ QString Decoder::getSondeType() {
 
 void Decoder::startRtlFm() {
     qDebug() << "Starting rtl_fm: frequency: " << frequency << ", bandwidth: " << bandwidth;
-
-    this->killRtlFm();
 
     QString rtlfm_program = "rtl_fm";
     QStringList rtlfm_params;
@@ -89,7 +93,7 @@ void Decoder::startDecoder() {
 
 void Decoder::beginDecoding() {
     if (frequency > 0 && sonde_type != "") {
-        this->killRtlFm();
+        this->killOldProcess();
         startRtlFm();
         startSox();
         startDecoder();

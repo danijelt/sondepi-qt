@@ -20,8 +20,7 @@ private:
     void startRtlFm();
     void startSox();
     void startDecoder();
-
-    void killRtlFm();
+    void killOldProcess();
 
     QProcess *rtlfm;
     QProcess *sox;
