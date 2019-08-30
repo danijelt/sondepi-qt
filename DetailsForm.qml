@@ -33,6 +33,16 @@ Page {
         }
 
         Label {
+            id: serialLabel
+            text: "Serial number"
+        }
+
+        Label {
+            id: serialText
+            text: "0"
+        }
+
+        Label {
             id: timeLabel
             text: "Time"
         }
@@ -73,6 +83,16 @@ Page {
         }
 
         Label {
+            id: directionLabel
+            text: "Direction"
+        }
+
+        Label {
+            id: directionText
+            text: "0 °"
+        }
+
+        Label {
             id: vvLabel
             text: "Vertical speed"
         }
@@ -80,6 +100,26 @@ Page {
         Label {
             id: vvText
             text: "0.0 m/s"
+        }
+
+        Label {
+            id: temperatureLabel
+            text: "Temperature"
+        }
+
+        Label {
+            id: temperatureText
+            text: "- °C"
+        }
+
+        Label {
+            id: humidityLabel
+            text: "Humidity"
+        }
+
+        Label {
+            id: humidityText
+            text: "- %"
         }
     }
 }
