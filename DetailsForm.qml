@@ -122,4 +122,23 @@ Page {
             text: "- %"
         }
     }
+
+    Connections {
+        target: decoder
+
+        onDetailsUpdated: {
+            freqText.text = (decoder.getFrequency()/1000/1000).toFixed(3) + " MHz";
+            packetText.text = packet;
+            serialText.text = serial;
+            timeText.text = time;
+            coordText.text = lat + ", " + lon;
+            altitudeText.text = alt + " m";
+            vhText.text = vH + " m/s";
+            directionText.text = dir + " °";
+            vvText.text = vV + " m/s";
+            temperatureText.text = temp + " °C";
+            humidityText.text = hum + "%";
+
+        }
+    }
 }

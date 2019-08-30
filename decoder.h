@@ -26,6 +26,9 @@ private:
     QProcess *sox;
     QProcess *decoder;
 
+    double lat, lon;
+    QString packet, serial, time, alt, vH, dir, vV, temp, hum;
+
     ~Decoder();
 
 public slots:
@@ -33,6 +36,7 @@ public slots:
 
 signals:
     void sondePositionChanged(double lat, double lon);
+    void detailsUpdated(QString packet, QString serial, QString time, double lat, double lon, QString alt, QString vH, QString dir, QString vV, QString temp, QString hum);
 
 public:
     explicit Decoder(QObject *parent = nullptr);

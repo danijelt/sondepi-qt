@@ -86,7 +86,8 @@ void Decoder::startDecoder() {
     qDebug() << "Starting decoder: " << sonde_type;
 
     QString decoder_program = sonde_type;
-    QStringList decoder_params; // no parameters required at the moment
+    QStringList decoder_params;
+    decoder_params << "--ptu" << "-vvv";
 
     decoder->start(decoder_program, decoder_params);
 }
@@ -111,26 +112,88 @@ void Decoder::readStandardOutput() {
        processOutput = QString::fromLocal8Bit(decoder->readLine());
     }
 
-    qDebug() << "Output was " << processOutput;
+    if (sonde_type == "rs41") {
+        QRegularExpression re_packet("\\[\\s*([0-9]+)");
+        QRegularExpressionMatch match_packet = re_packet.match(processOutput);
+        if (match_packet.hasMatch()) {
+            packet = match_packet.captured(1);
+        }
 
-    double lat_f = 0.0, lon_f = 0.0;
+        QRegularExpression re_serial("\\(([A-Z0-9]+)");
+        QRegularExpressionMatch match_serial = re_serial.match(processOutput);
+        if (match_serial.hasMatch()) {
+            serial = match_serial.captured(1);
+        }
 
-    QRegularExpression re_lat("lat\\:\\s([\\-\\+]?([0-9]*\\.[0-9]+|[0-9]+))");
+        QRegularExpression re_time("[0-9]{4}-[0-9]{2}-[0-9]{2}\\s[0-9]{2}:[0-9]{2}:[0-9]{2}");
+        QRegularExpressionMatch match_time = re_time.match(processOutput);
+        if (match_time.hasMatch()) {
+            time = match_time.captured(0);
+        }
+    } else if (sonde_type == "m10") {
+        packet = "-";
+
+        QRegularExpression re_serial("SN:\\s+([0-9\\s]+)");
+        QRegularExpressionMatch match_serial = re_serial.match(processOutput);
+        if (match_serial.hasMatch()) {
+            serial = match_serial.captured(1);
+        }
+
+        QRegularExpression re_time("[0-9]{4}-[0-9]{2}-[0-9]{2}\\s\\([0-9]{2}:[0-9]{2}:[0-9]{2}\\)");
+        QRegularExpressionMatch match_time = re_time.match(processOutput);
+        if (match_time.hasMatch()) {
+            time = match_time.captured(0);
+        }
+    }
+
+    QRegularExpression re_lat("lat:\\s+([\\-\\+]?([0-9]*\\.[0-9]+|[0-9]+))");
     QRegularExpressionMatch match_lat = re_lat.match(processOutput);
     if (match_lat.hasMatch()) {
-        QString lat = match_lat.captured(1);
-        qDebug() << "lat == " << lat;
-        lat_f = lat.toDouble();
+        lat = match_lat.captured(1).toDouble();
     }
 
-    QRegularExpression re_lon("lon\\:\\s([\\-\\+]?([0-9]*\\.[0-9]+|[0-9]+))");
+    QRegularExpression re_lon("lon:\\s+([\\-\\+]?([0-9]*\\.[0-9]+|[0-9]+))");
     QRegularExpressionMatch match_lon = re_lon.match(processOutput);
     if (match_lon.hasMatch()) {
-        QString lon = match_lon.captured(1);
-        qDebug() << "lon == " << lon;
-        lon_f = lon.toDouble();
+        lon = match_lon.captured(1).toDouble();
     }
 
-    emit sondePositionChanged(lat_f, lon_f);
+    QRegularExpression re_alt("alt:\\s+([\\-\\+]?([0-9]*\\.[0-9]+|[0-9]+))");
+    QRegularExpressionMatch match_alt = re_alt.match(processOutput);
+    if (match_alt.hasMatch()) {
+        alt = match_alt.captured(1);
+    }
 
+    QRegularExpression re_vh("vH:\\s+([\\-\\+]?([0-9]*\\.[0-9]+|[0-9]+))");
+    QRegularExpressionMatch match_vh = re_vh.match(processOutput);
+    if (match_vh.hasMatch()) {
+        vH = match_vh.captured(1);
+    }
+
+    QRegularExpression re_dir("D:\\s+([\\-\\+]?([0-9]*\\.[0-9]+|[0-9]+))");
+    QRegularExpressionMatch match_dir = re_dir.match(processOutput);
+    if (match_dir.hasMatch()) {
+        dir = match_dir.captured(1);
+    }
+
+    QRegularExpression re_vv("vV:\\s+([\\-\\+]?([0-9]*\\.[0-9]+|[0-9]+))");
+    QRegularExpressionMatch match_vv = re_vv.match(processOutput);
+    if (match_vv.hasMatch()) {
+        vV = match_vv.captured(1);
+    }
+
+    QRegularExpression re_temp("T=([\\-\\+]?([0-9\\.]*))");
+    QRegularExpressionMatch match_temp = re_temp.match(processOutput);
+    if (match_temp.hasMatch()) {
+        temp = match_temp.captured(1);
+    }
+
+    QRegularExpression re_hum("RH=([0-9\\.]*)");
+    QRegularExpressionMatch match_hum = re_hum.match(processOutput);
+    if (match_hum.hasMatch()) {
+        hum = match_hum.captured(1);
+    }
+
+    emit sondePositionChanged(lat, lon);
+    emit detailsUpdated(packet, serial, time, lat, lon, alt, vH, dir, vV, temp, hum);
 }
