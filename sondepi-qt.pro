@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     decoder.cpp \
     main.cpp \
+    network.cpp \
     settings.cpp \
     ublox.cpp
 
@@ -37,5 +38,6 @@ DISTFILES +=
 
 HEADERS += \
     decoder.h \
+    network.h \
     settings.h \
     ublox.h

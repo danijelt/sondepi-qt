@@ -6,6 +6,7 @@
 #include <QObject>
 #include <QSettings>
 #include "decoder.h"
+#include "network.h"
 
 
 class Settings : public QObject
@@ -14,8 +15,9 @@ private:
     Q_OBJECT
     QSettings *settings;
     Decoder *decoder;
+    Network *network;
 public:
-    explicit Settings(Decoder *dec, QObject *parent = nullptr);
+    explicit Settings(Decoder *dec, Network *net, QObject *parent = nullptr);
     Q_INVOKABLE void loadSettings();
     Q_INVOKABLE void saveSettings();
 };

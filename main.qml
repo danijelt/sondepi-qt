@@ -59,6 +59,14 @@ ApplicationWindow {
                 }
             }
             ItemDelegate {
+                text: qsTr("Network")
+                width: parent.width
+                onClicked: {
+                    stackView.push("NetworkForm.qml")
+                    drawer.close()
+                }
+            }
+            ItemDelegate {
                 text: qsTr("About")
                 width: parent.width
                 onClicked: {

@@ -8,5 +8,6 @@
         <file>marker-red.png</file>
         <file>DetailsForm.qml</file>
         <file>marker-yellow.png</file>
+        <file>NetworkForm.qml</file>
     </qresource>
 </RCC>

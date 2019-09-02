@@ -6,6 +6,7 @@
 #include "ublox.h"
 #include "decoder.h"
 #include "settings.h"
+#include "network.h"
 
 int main(int argc, char *argv[])
 {
@@ -21,7 +22,8 @@ int main(int argc, char *argv[])
 
     Ublox *ublox = new Ublox();
     Decoder *decoder = new Decoder();
-    Settings *settings = new Settings(decoder);
+    Network *network = new Network();
+    Settings *settings = new Settings(decoder, network);
 
     settings->loadSettings();
 
@@ -29,6 +31,7 @@ int main(int argc, char *argv[])
     ctx->setContextProperty("ublox", ublox);
     ctx->setContextProperty("decoder", decoder);
     ctx->setContextProperty("settings", settings);
+    ctx->setContextProperty("network", network);
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
