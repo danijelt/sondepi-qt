@@ -123,6 +123,7 @@ Page {
         }
     }
 
+    // Connect to the decoder, update form with the data received in the detailsUpdated signal
     Connections {
         target: decoder
 

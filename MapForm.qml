@@ -8,9 +8,11 @@ import QtPositioning 5.12
 
 Page {
     title: qsTr("Map")
+    // Tracking mode and map type variables
     property string trackingMode: "none";
     property string mapType: "standard";
 
+    // Red sonde icon
     Image {
         id: sondeMarkerIcon
         source: "qrc:/marker-red.png"
@@ -18,6 +20,7 @@ Page {
         sourceSize.height: 32
     }
 
+    // Yellow user icon
     Image {
         id: userMarkerIcon
         source: "qrc:/marker-yellow.png"
@@ -25,21 +28,26 @@ Page {
         sourceSize.height: 32
     }
 
+    // OpenStreetMap plugin
     Plugin {
         id: mapPlugin
         name: "osm"
     }
 
+    // Map area
     Map {
         id: osmMap
         anchors.fill: parent
         plugin: mapPlugin
+        // Center to 0,0 by default, zoom level 1, maximum zoom level 21
         center: QtPositioning.coordinate(0, 0)
         zoomLevel: 1
         maximumZoomLevel: 21
 
+        // Limit gestures to pan and zoom
         gesture.acceptedGestures: MapGestureArea.PinchGesture | MapGestureArea.PanGesture
 
+        // Set anchor points for the icon to bottom center
         MapQuickItem {
             id: sondeMarker
             anchorPoint.x: sondeMarkerIcon.width/2
@@ -60,6 +68,7 @@ Page {
         anchors.right: parent.right
         columns: 1
 
+        // Distance between the sonde and the user
         Button {
             id: distanceLabel
             text: {
@@ -73,6 +82,7 @@ Page {
         anchors.right: parent.right
         columns: 1
 
+        // Switch between standard OSM and hiking (topographical) map
         Button {
             Layout.preferredWidth: 150
             id: mapTypeButton
@@ -90,6 +100,8 @@ Page {
             }
         }
 
+        // Tracking mode: none, sonde in the center, user in the center
+        // Zoom to level 18 when enabling tracking
         Button {
             Layout.preferredWidth: 150
             id: trackingModeButton
@@ -127,29 +139,36 @@ Page {
         }
     }
 
+    // Connect to the decoder object, move sonde icon to the coordinates received from the decoder
     Connections {
         target: decoder
 
         onSondePositionChanged: {
             sondeMarker.coordinate = QtPositioning.coordinate(lat, lon);
+            // Center the map to the new coordinates if sonde tracking is enabled
             if (trackingMode === "sonde") {
                 osmMap.center = sondeMarker.coordinate;
             }
+            // Calculate distance between sonde and the user
             distanceLabel.text = (userMarker.coordinate.distanceTo(sondeMarker.coordinate)).toFixed(1) + " m"
         }
     }
 
+    // Connect to the ublox object, move user icon to the coordinates received from the decoder
     Connections {
         target: ublox;
 
         onPositionChanged: {
             userMarker.coordinate = QtPositioning.coordinate(lat, lon);
+            // Center the map to the new coordinates if user tracking is enabled
+            // Rotate the map to the direction the user is moving in
             if (trackingMode === "user") {
                 osmMap.center = userMarker.coordinate;
                 if (!isNaN(dir)) {
                     osmMap.bearing = dir;
                 }
             }
+            // Calculate distance between sonde and the user
             distanceLabel.text = (userMarker.coordinate.distanceTo(sondeMarker.coordinate)).toFixed(1) + " m"
         }
     }

@@ -7,7 +7,7 @@ import QtQuick.VirtualKeyboard 2.4
 ApplicationWindow {
     id: window
     visible: true
-    //visibility: "FullScreen"
+    // 800x480 is the resolution of the official 7" RPi touchscreen
     width: 800
     height: 480
     title: qsTr("SondePi")
@@ -77,6 +77,7 @@ ApplicationWindow {
         }
     }
 
+    // Open MapForm on startup
     StackView {
         id: stackView
         initialItem: "MapForm.qml"
@@ -95,6 +96,7 @@ ApplicationWindow {
             when: inputPanel.active
             PropertyChanges {
                 target: inputPanel
+                // Fix y position bug in default Stack View template - add toolButton.implicitHeight
                 y: window.height - inputPanel.height - toolButton.implicitHeight
             }
         }

@@ -2,6 +2,13 @@
 
 #include "settings.h"
 
+/**
+ * @brief Settings::Settings
+ * @param dec
+ * @param net
+ * @param parent
+ * Get decoder and network objects for getting and setting data
+ */
 Settings::Settings(Decoder *dec, Network *net, QObject *parent) : QObject(parent)
 {
     settings = new QSettings();
@@ -9,6 +16,10 @@ Settings::Settings(Decoder *dec, Network *net, QObject *parent) : QObject(parent
     network = net;
 }
 
+/**
+ * @brief Settings::loadSettings
+ * Load settings from the file (on application start)
+ */
 void Settings::loadSettings()
 {
     qDebug() << "Loading settings";
@@ -21,6 +32,11 @@ void Settings::loadSettings()
     network->setPassphrase(settings->value("passphrase").toString());
 }
 
+/**
+ * @brief Settings::saveSettings
+ * Save settings to the file
+ * Called when updating decoder or network settings
+ */
 void Settings::saveSettings()
 {
     qDebug() << "Saving settings";

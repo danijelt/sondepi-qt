@@ -21,8 +21,11 @@ Page {
         TextField {
             Layout.preferredWidth: configForm.width - x - 2*configForm.padding
             id: freqInput
+            // Limit input to the digits only
             inputMethodHints: Qt.ImhDigitsOnly
+            // Requires 6 digits, 3 decimal places
             inputMask: "999.999"
+            // Get frequency from the decoder
             text: {
                 var frequency = (decoder.getFrequency()/1000/1000).toFixed(3);
                 if (frequency > 0) {
@@ -39,7 +42,9 @@ Page {
         ComboBox {
             Layout.preferredWidth: configForm.width - x - 2*configForm.padding
             id: bandwidth
+            // Key is passed to the decoder and used as a parameter in the decoder chain
             textRole: "key"
+            // Get bandwidth from the decoder
             currentIndex: {
                 var bw = decoder.getBandwidth();
                 if (bw !== "") {
@@ -50,6 +55,7 @@ Page {
                 }
             }
 
+            // List of currently supported bandwidths, experimentally determined as optimal
             model: ListModel {
                 ListElement { key: "6 kHz (RS41)"; value: "6k" }
                 ListElement { key: "10 kHz"; value: "10k" }
@@ -66,7 +72,9 @@ Page {
         ComboBox {
             Layout.preferredWidth: configForm.width - x - 2*configForm.padding
             id: sondeType
+            // Key is passed to the decoder and used as the decoder executable name
             textRole: "key"
+            // Get sonde type from the decoder
             currentIndex: {
                 var sonde = decoder.getSondeType();
                 if (sonde !== "") {
@@ -77,12 +85,14 @@ Page {
                 }
             }
 
+            // Currently tested and supported sondes
             model: ListModel {
                 ListElement { key: "Vaisala RS41"; value: "rs41" }
                 ListElement { key: "Meteomodem M10"; value: "m10" }
             }
         }
 
+        // Apply and save the settings and begin decoding
         Button {
             text: "Apply and run"
 
@@ -92,14 +102,17 @@ Page {
                 decoder.setSondeType(sondeType.model.get(sondeType.currentIndex).value);
                 decoder.beginDecoding();
                 settings.saveSettings();
+                stackView.pop();
             }
         }
     }
 
+    // Connect to the decoder object
     Connections {
         target: decoder
     }
 
+    // Connect to the settings object
     Connections {
         target: settings
     }

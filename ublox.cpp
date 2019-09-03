@@ -2,6 +2,11 @@
 
 #include "ublox.h"
 
+/**
+ * @brief Ublox::Ublox
+ * @param parent
+ * All initialization is done in the constructor, further interaction is not required
+ */
 Ublox::Ublox(QObject *parent) : QObject(parent)
 {
     qDebug() << "Initializing NMEA source";
@@ -23,6 +28,12 @@ Ublox::Ublox(QObject *parent) : QObject(parent)
     }
 }
 
+/**
+ * @brief Ublox::printPosition
+ * @param location
+ * Callback for positionUpdated signal
+ * Emits positionChanged signal for the frontend
+ */
 void Ublox::printPosition(QGeoPositionInfo location)
 {
     emit positionChanged(location.coordinate().latitude(), location.coordinate().longitude(), location.attribute(QGeoPositionInfo::Direction));

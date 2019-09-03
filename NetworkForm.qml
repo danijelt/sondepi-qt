@@ -21,6 +21,7 @@ Page {
         TextField {
             Layout.preferredWidth: networkForm.width - x - 2*networkForm.padding
             id: ssidInput
+            // Get SSID from the settings
             text: {
                 return network.getSSID();
             }
@@ -35,6 +36,7 @@ Page {
             Layout.preferredWidth: networkForm.width - x - 2*networkForm.padding
             id: security
             textRole: "key"
+            // Get network security from the settings
             currentIndex: {
                 var sec = network.getSecurity();
                 if (sec !== "") {
@@ -45,6 +47,7 @@ Page {
                 }
             }
 
+            // Currently supported network security types are no security, WEP and WPA
             model: ListModel {
                 ListElement { key: "None or WEP"; value: "NONE" }
                 ListElement { key: "WPA/WPA2 PSK"; value: "WPA-PSK" }
@@ -59,6 +62,7 @@ Page {
         TextField {
             Layout.preferredWidth: networkForm.width - x - 2*networkForm.padding
             id: passInput
+            // Get passphrase from the settings
             text: {
                 return network.getPassphrase();
             }
@@ -69,6 +73,7 @@ Page {
             text: "Ethernet IP"
         }
 
+        // Ethernet IP, used to check if the network is working properly
         Label {
             id: ethIpText
             text: {
@@ -81,6 +86,7 @@ Page {
             text: "WLAN IP"
         }
 
+        // Wireless IP, used to check if the network is working properly
         Label {
             id: wlanIpText
             text: {
@@ -88,6 +94,7 @@ Page {
             }
         }
 
+        // Apply settings and restart network connectivity
         Button {
             text: "Apply"
 
@@ -101,14 +108,17 @@ Page {
         }
     }
 
+    // Connect to the network object
     Connections {
         target: network
     }
 
+    // Connect to the settings object
     Connections {
         target: settings
     }
 
+    // Refresh IP addresses every second
     Timer {
         interval: 1000;
         running: true;
