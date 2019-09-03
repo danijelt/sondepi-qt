@@ -124,7 +124,7 @@ void Decoder::startSox() {
 
     QString sox_program = "sox";
     QStringList sox_params;
-    sox_params << "-t" << "raw" << "-r" << bandwidth << "-es" << "-b16" << "-c1" << "-V1" << "-" << "-t" << "wav" << "-r" << "48k" << "-";
+    sox_params << "--buffer" << "1024" << "-t" << "raw" << "-r" << bandwidth << "-es" << "-b16" << "-c1" << "-V1" << "-" << "-t" << "wav" << "-r" << "48k" << "-";
     // pipe output to decoder
     sox->setStandardOutputProcess(decoder);
     sox->start(sox_program, sox_params);
