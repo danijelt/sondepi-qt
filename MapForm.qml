@@ -41,17 +41,17 @@ Page {
         gesture.acceptedGestures: MapGestureArea.PinchGesture | MapGestureArea.PanGesture
 
         MapQuickItem {
-            id: userMarker
-            anchorPoint.x: userMarkerIcon.width/2
-            anchorPoint.y: userMarkerIcon.height
-            sourceItem: userMarkerIcon
-        }
-
-        MapQuickItem {
             id: sondeMarker
             anchorPoint.x: sondeMarkerIcon.width/2
             anchorPoint.y: sondeMarkerIcon.height
             sourceItem: sondeMarkerIcon
+        }
+
+        MapQuickItem {
+            id: userMarker
+            anchorPoint.x: userMarkerIcon.width/2
+            anchorPoint.y: userMarkerIcon.height
+            sourceItem: userMarkerIcon
         }
     }
 
@@ -128,6 +128,18 @@ Page {
     }
 
     Connections {
+        target: decoder
+
+        onSondePositionChanged: {
+            sondeMarker.coordinate = QtPositioning.coordinate(lat, lon);
+            if (trackingMode === "sonde") {
+                osmMap.center = sondeMarker.coordinate;
+            }
+            distanceLabel.text = (userMarker.coordinate.distanceTo(sondeMarker.coordinate)).toFixed(1) + " m"
+        }
+    }
+
+    Connections {
         target: ublox;
 
         onPositionChanged: {
@@ -137,18 +149,6 @@ Page {
                 if (!isNaN(dir)) {
                     osmMap.bearing = dir;
                 }
-            }
-            distanceLabel.text = (userMarker.coordinate.distanceTo(sondeMarker.coordinate)).toFixed(1) + " m"
-        }
-    }
-
-    Connections {
-        target: decoder
-
-        onSondePositionChanged: {
-            sondeMarker.coordinate = QtPositioning.coordinate(lat, lon);
-            if (trackingMode === "sonde") {
-                osmMap.center = sondeMarker.coordinate;
             }
             distanceLabel.text = (userMarker.coordinate.distanceTo(sondeMarker.coordinate)).toFixed(1) + " m"
         }

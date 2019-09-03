@@ -62,9 +62,6 @@ void Decoder::startRtlFm() {
     QString rtlfm_program = "rtl_fm";
     QStringList rtlfm_params;
     rtlfm_params << "-M" << "fm" << "-f" << QString::number(frequency) << "-s" << bandwidth;
-
-    qDebug() << rtlfm_params;
-
     rtlfm->setStandardOutputProcess(sox);
     rtlfm->start(rtlfm_program, rtlfm_params);
 }
@@ -75,9 +72,6 @@ void Decoder::startSox() {
     QString sox_program = "sox";
     QStringList sox_params;
     sox_params << "-t" << "raw" << "-r" << bandwidth << "-es" << "-b16" << "-c1" << "-V1" << "-" << "-t" << "wav" << "-r" << "48k" << "-";
-
-    qDebug() << sox_params;
-
     sox->setStandardOutputProcess(decoder);
     sox->start(sox_program, sox_params);
 }
@@ -88,7 +82,6 @@ void Decoder::startDecoder() {
     QString decoder_program = sonde_type;
     QStringList decoder_params;
     decoder_params << "--ptu" << "-vvv";
-
     decoder->start(decoder_program, decoder_params);
 }
 
@@ -100,6 +93,7 @@ void Decoder::beginDecoding() {
         startDecoder();
 
         decoder->setProcessChannelMode(QProcess::ForwardedChannels);
+        qDebug() << "Connecting decoder signal";
         connect(decoder, SIGNAL(readyReadStandardOutput()), this, SLOT(readStandardOutput()));
     } else {
         qDebug() << "Frequency and sonde type must be set!";

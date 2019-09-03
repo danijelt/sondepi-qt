@@ -30,8 +30,8 @@ int main(int argc, char *argv[])
     QQmlContext *ctx = engine.rootContext();
     ctx->setContextProperty("ublox", ublox);
     ctx->setContextProperty("decoder", decoder);
-    ctx->setContextProperty("settings", settings);
     ctx->setContextProperty("network", network);
+    ctx->setContextProperty("settings", settings);
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

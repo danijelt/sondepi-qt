@@ -24,18 +24,9 @@ QString Network::getWlanIp()
         return "Interface down";
 }
 
-bool Network::getEthStatus()
-{
-    return intf_eth.IsUp;
-}
-
-bool Network::getWlanStatus()
-{
-    return intf_wlan.IsUp;
-}
-
 void Network::applySettings()
 {
+    qDebug() << "Applying network settings";
     QFile wpa_supplicant("/etc/wpa_supplicant.conf");
     if (!wpa_supplicant.open(QIODevice::WriteOnly | QIODevice::Text))
         return;
@@ -51,8 +42,8 @@ void Network::applySettings()
         out << "  psk=\"" << getPassphrase() << "\"" << "\n";
     }
     out << "}" << "\n";
-
     wpa_supplicant.close();
+    qDebug() << "wpa_supplicant.conf written";
 
     QProcess *reloadWpaSupplicant = new QProcess(this);
     QString wpacli_program = "wpa_cli";
@@ -60,6 +51,7 @@ void Network::applySettings()
     wpacli_params << "reconfigure";
     reloadWpaSupplicant->execute(wpacli_program, wpacli_params);
     delete reloadWpaSupplicant;
+    qDebug() << "wpa_supplicant reloaded";
 }
 
 void Network::setSSID(QString name)

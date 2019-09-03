@@ -16,14 +16,11 @@ private:
     Q_OBJECT
     QNetworkInterface intf_eth, intf_wlan;
     QNetworkAddressEntry ip_eth, ip_wlan;
-    bool status_eth, status_wlan;
     QString ssid, security, passphrase;
 public:
     explicit Network(QObject *parent = nullptr);
     Q_INVOKABLE QString getEthIp();
     Q_INVOKABLE QString getWlanIp();
-    Q_INVOKABLE bool getEthStatus();
-    Q_INVOKABLE bool getWlanStatus();
     Q_INVOKABLE void applySettings();
     Q_INVOKABLE void setSSID(QString name);
     Q_INVOKABLE QString getSSID();

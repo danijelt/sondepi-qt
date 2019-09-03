@@ -110,12 +110,12 @@ Page {
     }
 
     Timer {
-            interval: 1000;
-            running: true;
-            repeat: true;
-            onTriggered: {
-                ethIpText.text = network.getEthIp();
-                wlanIpText.text = network.getWlanIp();
-            }
+        interval: 1000;
+        running: true;
+        repeat: true;
+        onTriggered: {
+            ethIpText.text = network.getEthIp();
+            wlanIpText.text = network.getWlanIp();
         }
+    }
 }

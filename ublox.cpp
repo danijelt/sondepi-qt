@@ -15,7 +15,7 @@ Ublox::Ublox(QObject *parent) : QObject(parent)
         ublox_source->setDevice(&serialPort);
         ublox_source->startUpdates();
 
-        qDebug() << "Connecting signal";
+        qDebug() << "Connecting position signal";
         connect(ublox_source, SIGNAL(positionUpdated(QGeoPositionInfo)), this, SLOT(printPosition(QGeoPositionInfo)));
 
     } catch (...) {

@@ -29,10 +29,6 @@ Page {
                     return frequency;
                 }
             }
-
-            onEditingFinished: {
-                decoder.setFrequency(freqInput.text*1000*1000);
-            }
         }
 
         Label {
@@ -60,11 +56,6 @@ Page {
                 ListElement { key: "15 kHz"; value: "15k" }
                 ListElement { key: "24 kHz (M10)"; value: "24k" }
             }
-
-            onActivated: {
-                console.log(bandwidth.model.get(bandwidth.currentIndex).value);
-                decoder.setBandwidth(bandwidth.model.get(bandwidth.currentIndex).value);
-            }
         }
 
         Label {
@@ -89,10 +80,6 @@ Page {
             model: ListModel {
                 ListElement { key: "Vaisala RS41"; value: "rs41" }
                 ListElement { key: "Meteomodem M10"; value: "m10" }
-            }
-
-            onActivated: {
-                decoder.setSondeType(sondeType.model.get(sondeType.currentIndex).value);
             }
         }
 
