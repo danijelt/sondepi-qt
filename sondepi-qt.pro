@@ -15,11 +15,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    decoder.cpp \
-    main.cpp \
-    network.cpp \
-    settings.cpp \
-    ublox.cpp
+    src/decoders/decoder.cpp \
+    src/main.cpp \
+    src/network/network.cpp \
+    src/position/ublox.cpp \
+    src/settings/settings.cpp
 
 RESOURCES += qml.qrc
 
@@ -37,7 +37,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES +=
 
 HEADERS += \
-    decoder.h \
-    network.h \
-    settings.h \
-    ublox.h
+    src/decoders/decoder.h \
+    src/network/network.h \
+    src/position/ublox.h \
+    src/settings/settings.h

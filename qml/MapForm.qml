@@ -15,7 +15,7 @@ Page {
     // Red sonde icon
     Image {
         id: sondeMarkerIcon
-        source: "qrc:/marker-red.png"
+        source: "qrc:/qml/resources/marker-red.png"
         sourceSize.width:32
         sourceSize.height: 32
     }
@@ -23,7 +23,7 @@ Page {
     // Yellow user icon
     Image {
         id: userMarkerIcon
-        source: "qrc:/marker-yellow.png"
+        source: "qrc:/qml/resources/marker-yellow.png"
         sourceSize.width:32
         sourceSize.height: 32
     }

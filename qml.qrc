@@ -1,13 +1,13 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
-        <file>MapForm.qml</file>
-        <file>AboutForm.qml</file>
-        <file>ConfigurationForm.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>marker-red.png</file>
-        <file>DetailsForm.qml</file>
-        <file>marker-yellow.png</file>
-        <file>NetworkForm.qml</file>
+        <file>qml/resources/marker-red.png</file>
+        <file>qml/resources/marker-yellow.png</file>
+        <file>qml/AboutForm.qml</file>
+        <file>qml/ConfigurationForm.qml</file>
+        <file>qml/DetailsForm.qml</file>
+        <file>qml/main.qml</file>
+        <file>qml/MapForm.qml</file>
+        <file>qml/NetworkForm.qml</file>
     </qresource>
 </RCC>
