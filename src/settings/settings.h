@@ -5,8 +5,8 @@
 
 #include <QObject>
 #include <QSettings>
-#include "decoder.h"
-#include "network.h"
+#include "../decoders/decoder.h"
+#include "../network/network.h"
 
 
 class Settings : public QObject

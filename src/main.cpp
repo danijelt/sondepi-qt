@@ -3,10 +3,10 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include "ublox.h"
-#include "decoder.h"
-#include "settings.h"
-#include "network.h"
+#include "position/ublox.h"
+#include "decoders/decoder.h"
+#include "settings/settings.h"
+#include "network/network.h"
 
 int main(int argc, char *argv[])
 {
